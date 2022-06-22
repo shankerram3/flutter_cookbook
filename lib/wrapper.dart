@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../Models/User_model.dart';
-import '../screens/login_page.dart';
+import 'Models/User_model.dart';
+import 'screens/login_page.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({Key? key}) : super(key: key);
@@ -18,7 +18,7 @@ class Wrapper extends StatelessWidget {
         builder: (_,AsyncSnapshot<User?>snapshot){
           if(snapshot.connectionState == ConnectionState.active ){
             final User? user = snapshot.data;
-            return user == null ? const LoginPage():const HomePage();
+            return user == null ? LoginPage():const HomePage();
           }
           else {
             return const Scaffold(

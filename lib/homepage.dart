@@ -12,9 +12,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('CookBook')),
-      body: FutureBuilder(
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {},
-      ),
+      /*body: FutureBuilder(
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+
+          
+          
+        },
+      ),*/
     );
   }
 }
