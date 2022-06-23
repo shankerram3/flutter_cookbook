@@ -1,7 +1,9 @@
 import 'package:cookbook/homepage.dart';
+import 'package:cookbook/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 class LoginPage extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
   LoginPage({Key? key}) : super(key: key);
@@ -11,8 +13,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -27,81 +32,82 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 52, color: Colors.black,fontWeight: FontWeight.bold),
               ),
               const SizedBox(
-                height: 20,
+                height: 50,
               ),
 
 
-              // ignore: avoid_unnecessary_containers
+             // EMAIL
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 204, 213, 238),
-                      border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
-                      borderRadius: BorderRadius.circular(12)),
-                  child: const Padding(
-                    padding: EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          border: InputBorder.none, hintText: 'Email'),
-                    ),
-                  ),
+                child: TextField(
+                  controller: email,
+                  decoration:InputDecoration(
+                      filled: true,
+                      fillColor: const  Color.fromARGB(255, 204, 213, 238),
+                      prefixIcon: const Icon(
+                          Icons.mail
+                      ),
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(8.0),
+                      ), hintText: 'email'),
                 ),
               ),
               const SizedBox(
                 height: 25.0,
               ),
+
+              //password
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: const  Color.fromARGB(255, 204, 213, 238),
-                      border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
-                      borderRadius: BorderRadius.circular(12)),
-                  child:  const Padding(
-                    padding: EdgeInsets.only(left: 20.0),
-                    child: TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        prefixIcon: Align(
-                            widthFactor: 1.0,
-                            heightFactor: 1.0,
-                            child: Icon(
-                              Icons.lock
-                            ),),
-                          border: InputBorder.none, hintText: 'password'),
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 0.0),
+                  child: TextField(
+                    controller: password,
+                    obscureText: true,
+                    decoration:
+                    InputDecoration(
+                        filled: true,
+                        fillColor: const  Color.fromARGB(255, 204, 213, 238),
+                        prefixIcon: const Icon(
+                        Icons.lock
+                      ),
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ), hintText: 'password'),
                   ),
                 ),
               ),
-              SizedBox(height: 25.0),
+              const SizedBox(height: 15.0),
+
+              Text(
+                'Forgot password?',
+                style: GoogleFonts.inter(
+                    fontSize: 12, color: Colors.blueGrey,fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 25.0),
+            //Sign-in Button
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue),
-                      ),
-                      onPressed: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const HomePage(),
-                          ),
-                        ),
-                      },
-                      child: const Text(
-                        'Sign In',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
+                child: Center(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      fixedSize: MaterialStateProperty.all<Size>(const Size(150, 40)),
+                      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 83, 114, 218)),
+                    ),
+                    onPressed: () async {
+
+                      var credential = await authService.signInWithEmailAndPassword(email.text, password.text);
+                      debugPrint(credential?.id);
+
+                    },
+                    child: const Text(
+                      'L O G I N',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
                     ),
                   ),
                 ),
@@ -109,13 +115,18 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 25.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text('Not a member?'),
-                  Text('  Signup!',
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontWeight: FontWeight.bold,
-                      ))
+                children:  [
+                  const Text('Not a member?'),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushNamed(context,'/register');
+                    },
+                    child: const Text('  Signup!',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),),
+                  )
                 ],
               )
             ]),
