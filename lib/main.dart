@@ -1,4 +1,4 @@
-import 'package:cookbook/homepage.dart';
+import 'package:cookbook/screens/homepage.dart';
 import 'package:cookbook/screens/login_page.dart';
 import 'package:cookbook/screens/register_screen.dart';
 import 'package:cookbook/services/auth_service.dart';

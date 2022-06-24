@@ -1,6 +1,6 @@
-import 'package:cookbook/homepage.dart';
+import 'package:cookbook/screens/homepage.dart';
+import 'package:cookbook/screens/Welcome.dart';
 import 'package:cookbook/services/auth_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +18,7 @@ class Wrapper extends StatelessWidget {
         builder: (_,AsyncSnapshot<User?>snapshot){
           if(snapshot.connectionState == ConnectionState.active ){
             final User? user = snapshot.data;
-            return user == null ? LoginPage():const HomePage();
+            return user == null ? const Welcome():const HomePage();
           }
           else {
             return const Scaffold(
