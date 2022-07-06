@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
             ),
             onPressed: () async {
              authService.signOut();
+             Navigator.pushNamed(context, '/login');
             },
             child: const Text(
               'Sign Out',

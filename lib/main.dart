@@ -1,3 +1,4 @@
+import 'package:cookbook/screens/dietary_preferences.dart';
 import 'package:cookbook/screens/homepage.dart';
 import 'package:cookbook/screens/login_page.dart';
 import 'package:cookbook/screens/register_screen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
           '/login':(context) => LoginPage(),
           '/register':(context) => RegisterScreen(),
           '/homepage':(context)=> const HomePage(),
+          '/preferences':(context)=> const DietPreferences()
         },
       ),
     );

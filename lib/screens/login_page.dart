@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cookbook/screens/homepage.dart';
 import 'package:cookbook/services/auth_service.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -121,10 +123,12 @@ class _LoginPageState extends State<LoginPage> {
                                   const Color.fromARGB(255, 83, 114, 218)),
                             ),
                             onPressed: () async {
-                              var credential =
-                                  await authService.signInWithEmailAndPassword(
+                              await authService.signInWithEmailAndPassword(
                                       email.text, password.text);
-                              debugPrint(credential?.id);
+                              var firstLogin= await FirebaseFirestore.instance.collection('User_data').get().then((value) => value.docs.first.get("loginFirst"));
+                             if(firstLogin == true){ Navigator.pushNamed(context, '/preferences'); }
+                             else if(firstLogin == false){ Navigator.pushNamed(context, '/homepage');}
+                             else{ return;}
                             },
                             child: const Text(
                               'L O G I N',
@@ -156,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
                             '  Signup!',
                             style: TextStyle(
                               color: Colors.blue,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w900,
                             ),
                           ),
                         )
